@@ -24,6 +24,7 @@ import se.nicklasgavelin.sphero.macro.command.Emit;
 import se.nicklasgavelin.sphero.macro.command.RGB;
 import se.nicklasgavelin.sphero.response.InformationResponseMessage;
 import se.nicklasgavelin.sphero.response.ResponseMessage;
+import se.nicklasgavelin.sphero.response.information.CollisiondetectedResponse;
 import se.nicklasgavelin.sphero.response.regular.GetBluetoothInfoResponse;
 import se.nicklasgavelin.util.ByteArrayBuffer;
 import se.nicklasgavelin.util.Pair;
@@ -79,6 +80,7 @@ public class Robot
 	 * belongs to a Sphero device.
 	 */
 	public static final String ROBOT_ADDRESS_PREFIX = "00066";
+	public static final String ROBOT_ADDRESS_PREFIX_V2 = "6886";
 	// Robot controller
 	// private RobotController controller;
 	private static int error_num = 0;
@@ -120,7 +122,8 @@ public class Robot
 		// this.bt.getAddress() );
 
 		// Control that we got a valid robot
-		if( !this.bt.getAddress().startsWith( ROBOT_ADDRESS_PREFIX ) )
+		if( !this.bt.getAddress().startsWith( ROBOT_ADDRESS_PREFIX ) &&
+				!bt.getAddress().startsWith(ROBOT_ADDRESS_PREFIX_V2) )
 		{
 			String msg = invalidAddressResponses[Value.clamp( error_num++, 0, invalidAddressResponses.length - 1 )];
 			Logging.error( msg );
@@ -206,7 +209,7 @@ public class Robot
 		{
 			// Check so that we can remove it
 			if( this.listeners.contains( l ) )
-				this.listeners.remove( l );
+				this.listeners.remove(l);
 		}
 	}
 
@@ -235,7 +238,16 @@ public class Robot
 		synchronized( this.listeners )
 		{
 			for( RobotListener r : this.listeners )
-				r.informationResponseReceived( this, dir );
+				r.informationResponseReceived(this, dir);
+		}
+	}
+
+	private void notifyCollisionDetected(InformationResponseMessage dir) {
+		Logging.debug("Notify listeners about collision detected: " + dir);
+		synchronized (this.listeners) {
+			for(RobotListener r : this.listeners) {
+				r.collisionDetected(this, (CollisiondetectedResponse)dir);
+			}
 		}
 	}
 
@@ -1114,7 +1126,8 @@ public class Robot
 	 */
 	public static boolean isValidAddress( String address )
 	{
-		return( address.startsWith( ROBOT_ADDRESS_PREFIX ) );
+		return( address.startsWith( ROBOT_ADDRESS_PREFIX ) ||
+		address.startsWith(ROBOT_ADDRESS_PREFIX_V2));
 	}
 
 	/**
@@ -1148,7 +1161,8 @@ public class Robot
 	 */
 	public static boolean isValidDevice( BluetoothDevice device )
 	{
-		return( device.getAddress().startsWith( ROBOT_ADDRESS_PREFIX ) );
+		return( device.getAddress().startsWith( ROBOT_ADDRESS_PREFIX ) ||
+		device.getAddress().startsWith(ROBOT_ADDRESS_PREFIX_V2));
 	}
 
 	/**
@@ -1533,7 +1547,14 @@ public class Robot
 														Robot.this.macroSettings.stopIfFinished();
 													}
 													break;
+												/**
+												 * data for collision event
+												 */
+												case COLLISIONDETECTED:
 
+
+													Robot.this.notifyCollisionDetected(dir);
+													break;
 												/*
 												 * Data message and any other type of
 												 * message

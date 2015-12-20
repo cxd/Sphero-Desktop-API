@@ -3,6 +3,7 @@ package se.nicklasgavelin.sphero;
 import se.nicklasgavelin.sphero.command.CommandMessage;
 import se.nicklasgavelin.sphero.response.ResponseMessage;
 import se.nicklasgavelin.sphero.response.InformationResponseMessage;
+import se.nicklasgavelin.sphero.response.information.CollisiondetectedResponse;
 
 /**
  * Interface for listening on a robot.
@@ -46,4 +47,11 @@ public interface RobotListener
 	 * @param response The response itself
 	 */
 	public void informationResponseReceived( Robot r, InformationResponseMessage response );
+
+	/**
+	 * notify the client of collision detection event.
+	 * @param r
+	 * @param response
+	 */
+	public void collisionDetected(Robot r, CollisiondetectedResponse response);
 }

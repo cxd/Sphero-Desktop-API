@@ -19,6 +19,7 @@ import se.nicklasgavelin.sphero.exception.InvalidRobotAddressException;
 import se.nicklasgavelin.sphero.exception.RobotBluetoothException;
 import se.nicklasgavelin.sphero.response.ResponseMessage;
 import se.nicklasgavelin.sphero.response.InformationResponseMessage;
+import se.nicklasgavelin.sphero.response.information.CollisiondetectedResponse;
 
 /**
  * Simple test class to test the Sphero API
@@ -335,6 +336,10 @@ public class Example_Site_API extends JFrame
 		public void informationResponseReceived( Robot r, InformationResponseMessage response )
 		{
 			// Information response (Ex. Sensor data)
+		}
+
+		public void collisionDetected(Robot r, CollisiondetectedResponse response) {
+
 		}
 	}
 }

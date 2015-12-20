@@ -20,6 +20,7 @@ import se.nicklasgavelin.sphero.Robot;
 import se.nicklasgavelin.sphero.RobotListener;
 import se.nicklasgavelin.sphero.command.CommandMessage;
 import se.nicklasgavelin.sphero.command.RawMotorCommand;
+import se.nicklasgavelin.sphero.command.SetCollisionDetection;
 import se.nicklasgavelin.sphero.command.SetDataStreamingCommand;
 import se.nicklasgavelin.sphero.exception.InvalidRobotAddressException;
 import se.nicklasgavelin.sphero.exception.RobotBluetoothException;
@@ -28,6 +29,7 @@ import se.nicklasgavelin.sphero.macro.MacroObject;
 import se.nicklasgavelin.sphero.macro.command.RawMotor;
 import se.nicklasgavelin.sphero.macro.command.*;
 import se.nicklasgavelin.sphero.response.ResponseMessage;
+import se.nicklasgavelin.sphero.response.information.CollisiondetectedResponse;
 import se.nicklasgavelin.sphero.response.information.DataResponse;
 import se.nicklasgavelin.sphero.response.InformationResponseMessage;
 
@@ -77,7 +79,8 @@ public class Experimental_Main implements BluetoothDiscoveryListener, RobotListe
     private Experimental_Main() throws InvalidRobotAddressException, RobotBluetoothException
     {
         Logging.debug( "test" );
-        String id = "00066644390F" /* x - - */;
+        String id = "6886E70732A6";
+        //String id = "00066644390F" /* x - - */;
 //        String id = "000666440DB8" /* - - x */;
 
         Robot r = new Robot(
@@ -89,10 +92,11 @@ public class Experimental_Main implements BluetoothDiscoveryListener, RobotListe
         if ( r.connect() )
         {
             r.addListener( this );
-            Logger.getLogger( Experimental_Main.class.getName() ).log( Level.INFO, "Connected to robot" );
+            Logger.getLogger( Experimental_Main.class.getName() ).log(Level.INFO, "Connected to robot");
 
             s = new TouchSensor( r );
             s.addTouchListener( this );
+            detectCollision(r);
             startStream( r );
 
 //            MacroObject mo = new MacroObject();
@@ -211,6 +215,7 @@ public class Experimental_Main implements BluetoothDiscoveryListener, RobotListe
     @Override
     public void event( Robot r, EVENT_CODE code )
     {
+        System.out.println("Event Code: " + code);
         System.out.println( "Macro done" );
 //
 //        switch( code )
@@ -237,6 +242,10 @@ public class Experimental_Main implements BluetoothDiscoveryListener, RobotListe
 //        }
     }
 
+    private void detectCollision(Robot r) {
+        SetCollisionDetection msg = new SetCollisionDetection(SetCollisionDetection.COLLISION_DETECT_METHOD.XYZ_ACCELEROMETER);
+        r.sendCommand(msg);
+    }
 
     private void startStream( Robot r )
     {
@@ -259,16 +268,28 @@ public class Experimental_Main implements BluetoothDiscoveryListener, RobotListe
                 co = 0;
             }
 
-            DataResponse dr = ( DataResponse ) response;
-            byte[] data = dr.getSensorData();
 
+            DataResponse dr = ( DataResponse ) response;
+            //System.out.println("Data Response Type: " +dr.getResponseType());
+
+
+            byte[] data = dr.getSensorData();
             int x = (data[1] | (data[0] << 8));
             int y = (data[3] | (data[2] << 8));
             int z = (data[5] | (data[4] << 8));
 
+
+
 //            System.out.println( "X=" + x + ", Y=" + y + ", Z=" + z );
             s.addData( new AccelerometerSensorData( x, y, z ) );
         }
+    }
+
+    @Override
+    public void collisionDetected(Robot r, CollisiondetectedResponse response) {
+        System.out.println("Collision Detected: X = " + response.getX() +
+        "Y = "+response.getY() + " Z = "+response.getZ() + " Axis: " + response.getAxis() +
+        "Speed = " + response.getSpeed() + " Timestamp: " + response.getTimestamp());
     }
 
 

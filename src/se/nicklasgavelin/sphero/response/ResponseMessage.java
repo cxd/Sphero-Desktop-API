@@ -387,7 +387,9 @@ public class ResponseMessage
 		public static enum RESPONSE_TYPE
 		{
 			/* Device response headers */
-			REGULAR( -1, -1 ), INFORMATION( -1, -2 ), UNKOWN();
+			REGULAR( -1, -1 ),
+			INFORMATION( -1, -2 ),
+			UNKOWN();
 
 			/* Internal storage */
 			private byte first, second;
@@ -497,7 +499,7 @@ public class ResponseMessage
 				new int[] { 53 },
 				new ResponseHeader.RESPONSE_TYPE[] { ResponseHeader.RESPONSE_TYPE.REGULAR } ), UNKNOWN_RESPONSE_CODE(
 				new int[] { -2 },
-				new ResponseHeader.RESPONSE_TYPE[] { ResponseHeader.RESPONSE_TYPE.REGULAR } );
+				new ResponseHeader.RESPONSE_TYPE[] { ResponseHeader.RESPONSE_TYPE.REGULAR });
 
 		private Map<ResponseHeader.RESPONSE_TYPE, Byte> codes;
 

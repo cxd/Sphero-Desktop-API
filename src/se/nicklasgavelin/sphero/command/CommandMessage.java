@@ -192,6 +192,11 @@ public class CommandMessage
         VERSIONING( 2, 0 ),
         SET_BLUETOOTH_NAME( 16, 0 ),
         GET_BLUETOOTH_INFO( 17, 0 ),
+        // turn on collision detection
+        SET_COLLISION_DET(18,2),
+        // send read locator
+        READ_LOCATOR(21,2),
+
         GO_TO_SLEEP( 34, 0 ),
         JUMP_TO_BOOTLOADER( 48, 0 ),
         LEVEL_1_DIAGNOSTICS( 64, 0 ),

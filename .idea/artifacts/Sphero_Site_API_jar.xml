@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Sphero Site API:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/Sphero_Site_API_jar</output-path>
+    <root id="archive" name="Sphero-Desktop-API.jar">
+      <element id="module-output" name="Sphero Site API" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/log4j-1.2.16.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/bluecove-2.1.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
