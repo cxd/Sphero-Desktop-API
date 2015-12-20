@@ -11,6 +11,7 @@ public class ReadLocatorCommand extends CommandMessage {
     public ReadLocatorCommand() {
         super(COMMAND_MESSAGE_TYPE.READ_LOCATOR);
     }
+
 }
 
 

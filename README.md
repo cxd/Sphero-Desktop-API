@@ -1,6 +1,6 @@
 ### Note this is a fork of the API from  [__nicklasgav Sphero-Desktop-API__](https://github.com/nicklasgav/Sphero-Desktop-API)
 
-### Please use that as the primary source instead. 
+### Please use that as the primary source. 
 
 
 

@@ -18,10 +18,7 @@ import se.nicklasgavelin.bluetooth.BluetoothDiscoveryListener;
 import se.nicklasgavelin.log.Logging;
 import se.nicklasgavelin.sphero.Robot;
 import se.nicklasgavelin.sphero.RobotListener;
-import se.nicklasgavelin.sphero.command.CommandMessage;
-import se.nicklasgavelin.sphero.command.RawMotorCommand;
-import se.nicklasgavelin.sphero.command.SetCollisionDetection;
-import se.nicklasgavelin.sphero.command.SetDataStreamingCommand;
+import se.nicklasgavelin.sphero.command.*;
 import se.nicklasgavelin.sphero.exception.InvalidRobotAddressException;
 import se.nicklasgavelin.sphero.exception.RobotBluetoothException;
 import se.nicklasgavelin.sphero.macro.command.Delay;
@@ -98,6 +95,9 @@ public class Experimental_Main implements BluetoothDiscoveryListener, RobotListe
             s.addTouchListener( this );
             detectCollision(r);
             startStream( r );
+
+            // test read location
+            r.sendCommand(new ReadLocatorCommand());
 
 //            MacroObject mo = new MacroObject();
 //            mo.setMode( MacroObject.MacroObjectMode.CachedStreaming );
