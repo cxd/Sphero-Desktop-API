@@ -44,11 +44,13 @@ public class ReadLocatorResponse extends ResponseMessage {
      */
     private void parseData(byte[] data) {
         ByteBuffer buffer = ByteBuffer.wrap(data, 0, data.length);
-        xPosition = buffer.getShort();
-        yPosition = buffer.getShort();
-        xVelocity = buffer.getShort();
-        yVelocity = buffer.getShort();
-        speedOverGround = buffer.getShort();
+       if (data.length == 5) {
+           xPosition = buffer.getShort();
+           yPosition = buffer.getShort();
+           xVelocity = buffer.getShort();
+           yVelocity = buffer.getShort();
+           speedOverGround = buffer.getShort();
+       }
     }
 
     /**
