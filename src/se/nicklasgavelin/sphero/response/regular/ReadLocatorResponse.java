@@ -44,7 +44,7 @@ public class ReadLocatorResponse extends ResponseMessage {
      */
     private void parseData(byte[] data) {
         ByteBuffer buffer = ByteBuffer.wrap(data, 0, data.length);
-       if (data.length == 5) {
+       if (data.length >= 5) {
            xPosition = buffer.getShort();
            yPosition = buffer.getShort();
            xVelocity = buffer.getShort();
