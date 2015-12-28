@@ -77,7 +77,8 @@ public class DataStreamParser {
 
 
     public DataStreamParser(int mask1, int mask2) {
-
+        this.mask1 = mask1;
+        this.mask2 = mask2;
     }
 
     /**
@@ -88,7 +89,7 @@ public class DataStreamParser {
      * @return
      */
     private boolean exists(int mask, int flag) {
-        return (mask & flag) > 0;
+        return (mask & flag) != 0;
     }
 
     /**
@@ -119,12 +120,12 @@ public class DataStreamParser {
      * @param procFn
      * @return
      */
-    private boolean processData(int i, int mask, int flag, int index, byte[] data, SensorData result, Processor procFn) {
-        if (exists(i, flag) && exists(mask, flag)) {
-           if (index < data.length - 1) {
-               int value = extract(index, data);
-               return procFn.apply(result, value);
-           }
+    private boolean processData(int mask, int flag, int index, byte[] data, SensorData result, Processor procFn) {
+        if (exists(mask, flag)) {
+            if (index < data.length - 1) {
+                int value = extract(index, data);
+                return procFn.apply(result, value);
+            }
         }
         return false;
     }
@@ -132,6 +133,7 @@ public class DataStreamParser {
     /**
      * parse the sensor packet as received from the
      * data streaming response.
+     *
      * @param packet
      * @return
      */
@@ -146,13 +148,13 @@ public class DataStreamParser {
         // in the class "SensorData"
         // additionally the order of evaluation is also defined in:
         // http://www.mathworks.com/matlabcentral/fileexchange/52746-sphero-api-matlab-sdk/content/Sphero_API_Matlab_SDK/Sphero/SpheroInterface/SpeheroCore/SpheroCore.m
-        // where each successive iteration decreases the size of the byte array by 2.
-        // instead of incrementing a data index.
-        for (int i = 0x80000000; i > 0; i = i >> 1) {
+        // where each successive iteration decreases the size of the byte array by 2
+        // we expect the dataIndex to always increment and eventually consume
+        // the available data.
+        while (dataIndex < packet.length - 1) {
             boolean parseFlag = false;
-
             for (final int flag : flags) {
-                parseFlag = processData(i, mask1, flag, dataIndex, packet, result,
+                parseFlag = processData(mask1, flag, dataIndex, packet, result,
                         new Processor() {
                             @Override
                             public boolean apply(SensorData result, int value) {
@@ -227,21 +229,17 @@ public class DataStreamParser {
                         });
                 if (parseFlag) {
                     dataIndex += 2;
-                    continue;
                 }
             }
-        }
-        for (int i = 0x80000000; i > 0; i = i >> 1) {
-            boolean parseFlag = false;
             for (final int flag : mask2flags) {
-                parseFlag = processData(i, mask1, flag, dataIndex, packet, result,
+                parseFlag = processData(mask2, flag, dataIndex, packet, result,
                         new Processor() {
 
                             @Override
                             public boolean apply(SensorData result, int value) {
-                                switch(flag) {
+                                switch (flag) {
                                     case SetDataStreamingCommand.DATA_STREAMING_MASK2.QUATERNION.Q0:
-                                         result.getQuaternion().setQ0(value);
+                                        result.getQuaternion().setQ0(value);
                                         return true;
                                     case SetDataStreamingCommand.DATA_STREAMING_MASK2.QUATERNION.Q1:
                                         result.getQuaternion().setQ1(value);
@@ -275,7 +273,6 @@ public class DataStreamParser {
 
                 if (parseFlag) {
                     dataIndex += 2;
-                    continue;
                 }
             }
         }
@@ -283,4 +280,29 @@ public class DataStreamParser {
     }
 
 
+    private class Tuple<A, B> {
+        private A one;
+        private B two;
+
+        public Tuple(A a, B b) {
+            one = a;
+            two = b;
+        }
+
+        public A getOne() {
+            return one;
+        }
+
+        public void setOne(A one) {
+            this.one = one;
+        }
+
+        public B getTwo() {
+            return two;
+        }
+
+        public void setTwo(B two) {
+            this.two = two;
+        }
+    }
 }
