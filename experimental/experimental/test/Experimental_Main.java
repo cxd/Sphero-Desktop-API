@@ -249,7 +249,7 @@ public class Experimental_Main implements BluetoothDiscoveryListener, RobotListe
 
     private void startStream( Robot r )
     {
-        SetDataStreamingCommand sds = new SetDataStreamingCommand( 4, 1, SetDataStreamingCommand.DATA_STREAMING_MASKS.GYRO.ALL.RAW, 100 ); //new SetDataStreamingCommand( 1, 1, SetDataStreamingCommand.DATA_STREAMING_MASKS.ACCELEROMETER.ALL.RAW, 65534 );
+        SetDataStreamingCommand sds = new SetDataStreamingCommand( 4, 1, SetDataStreamingCommand.DATA_STREAMING_MASKS.GYRO.ALL.RAW, 100, 0 ); //new SetDataStreamingCommand( 1, 1, SetDataStreamingCommand.DATA_STREAMING_MASKS.ACCELEROMETER.ALL.RAW, 65534 );
         r.sendCommand( sds );
     }
     private int co = 0;
