@@ -77,8 +77,8 @@ public class Experimental_Main implements BluetoothDiscoveryListener, RobotListe
     {
         Logging.debug( "test" );
         String id = "6886E70732A6";
-        //String id = "00066644390F" /* x - - */;
-//        String id = "000666440DB8" /* - - x */;
+        //String id = "00066644390F" /* a - - */;
+//        String id = "000666440DB8" /* - - a */;
 
         Robot r = new Robot(
                 new BluetoothDevice(
@@ -280,7 +280,7 @@ public class Experimental_Main implements BluetoothDiscoveryListener, RobotListe
 
 
 
-//            System.out.println( "X=" + x + ", Y=" + y + ", Z=" + z );
+//            System.out.println( "X=" + a + ", Y=" + y + ", Z=" + z );
             s.addData( new AccelerometerSensorData( x, y, z ) );
         }
     }

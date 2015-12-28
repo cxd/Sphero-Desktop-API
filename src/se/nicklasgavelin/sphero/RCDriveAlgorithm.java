@@ -30,7 +30,7 @@ public class RCDriveAlgorithm extends DriveAlgorithm
 		// Update heading
 		this.heading = curHeading;
 
-		// Update x value
+		// Update a value
 		x = Value.clamp( x, 0.0D, 1.0D );
 
 		// Update current speed

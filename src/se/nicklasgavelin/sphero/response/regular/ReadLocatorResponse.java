@@ -54,7 +54,7 @@ public class ReadLocatorResponse extends ResponseMessage {
     }
 
     /**
-     * x-coord relative to starting position (0,0)
+     * a-coord relative to starting position (0,0)
      */
     public int getxPosition() {
         return xPosition;

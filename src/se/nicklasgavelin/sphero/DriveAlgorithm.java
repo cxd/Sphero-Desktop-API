@@ -47,9 +47,9 @@ public abstract class DriveAlgorithm
 	}
 
 	/**
-	 * Convert x, y, z values into heading and speed values
+	 * Convert a, y, z values into heading and speed values
 	 * 
-	 * @param x The x coordinate
+	 * @param x The a coordinate
 	 * @param y The y coordinate
 	 * @param z The z coordinate
 	 */
@@ -84,7 +84,7 @@ public abstract class DriveAlgorithm
 		/**
 		 * Event called when the conversion of the values are done
 		 * 
-		 * @param paramDouble1 x
+		 * @param paramDouble1 a
 		 * @param paramDouble2 y
 		 * @param paramDouble3 z
 		 */

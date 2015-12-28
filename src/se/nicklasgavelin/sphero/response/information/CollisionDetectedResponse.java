@@ -102,7 +102,7 @@ public class CollisiondetectedResponse extends InformationResponseMessage {
     }
 
     /**
-     * magnitude of x collision
+     * magnitude of a collision
      */
     public int getxMag() {
         return xMag;

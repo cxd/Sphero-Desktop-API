@@ -19,7 +19,7 @@ public class MacroObject
 	private MacroObjectMode mode = MacroObjectMode.Normal;
 
 	private static final int MAX_MACRO_LENGTH = 256,
-			MAX_TOTAL_COMMAND_LENGTH = 240; // x | (248);
+			MAX_TOTAL_COMMAND_LENGTH = 240; // a | (248);
 
 	public MacroObject()
 	{

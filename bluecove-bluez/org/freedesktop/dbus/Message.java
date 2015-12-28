@@ -76,7 +76,7 @@ public class Message
       public static final String UINT16_STRING="q";
       public static final String INT32_STRING="i";
       public static final String UINT32_STRING="u";
-      public static final String INT64_STRING="x";
+      public static final String INT64_STRING="a";
       public static final String UINT64_STRING="t";
       public static final String DOUBLE_STRING="d";
       public static final String FLOAT_STRING="f";
@@ -98,7 +98,7 @@ public class Message
       public static final byte UINT16='q';
       public static final byte INT32='i';
       public static final byte UINT32='u';
-      public static final byte INT64='x';
+      public static final byte INT64='a';
       public static final byte UINT64='t';
       public static final byte DOUBLE='d';
       public static final byte FLOAT='f';

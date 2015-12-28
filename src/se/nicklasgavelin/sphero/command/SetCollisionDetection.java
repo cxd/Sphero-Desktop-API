@@ -10,7 +10,7 @@ public class SetCollisionDetection extends CommandMessage {
         DISABLED(0),
         // 0x01 power impact xmagnitude and ymagnitude
         XY_MAGNITUDE(1),
-        // 0x02 acelometer at highest peack of impact x,y,z
+        // 0x02 acelometer at highest peack of impact a,y,z
         XYZ_ACCELEROMETER(2);
 
         private int flag = 0;
@@ -27,9 +27,9 @@ public class SetCollisionDetection extends CommandMessage {
 
     private COLLISION_DETECT_METHOD detectMethod;
 
-    // x axis impact threshold between 100 and 140
+    // a axis impact threshold between 100 and 140
     private int xThreshold = 120;
-    // x axis impact threshold between 100 and 140
+    // a axis impact threshold between 100 and 140
     private int yThreshold = 120;
     // speed threshold is between 0 and 255
     private int xSpeed = 100;
